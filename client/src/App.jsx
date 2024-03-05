@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavBar from './components/NavBar';
+import NavBar from './components/General/NavBar';
 import MainPage from './pages/MainPage'
 import MyReservationsPage from './pages/MyReservationsPage';
 import LoginPage from './pages/LoginPage';

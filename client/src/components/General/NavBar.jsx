@@ -1,5 +1,6 @@
-import { Container, Nav, Navbar, Button } from 'react-bootstrap'
+import { Container, Nav, Navbar, Image } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom';
+import Icon from '../../assets/airplane.png'
 
 const NavBar = (props) => {
   const { handleLogout, isLoggedIn } = props
@@ -20,6 +21,7 @@ const NavBar = (props) => {
     <Navbar bg="primary" expand="sm" variant="dark" >
       <Container>
         <Navbar.Brand href="#home" style={{ color: "white" }} variant="pills">
+          <Image src={Icon} width={30} height={30} fluid />{' '}
           Polito Airways
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
