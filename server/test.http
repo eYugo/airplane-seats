@@ -1,0 +1,63 @@
+GET http://localhost:3000/guess HTTP/1.1
+###
+
+# Retrieving user By Id
+GET http://localhost:3000/api/users/1 HTTP/1.1
+###
+
+# Retrieving reservations by user Id
+GET http://localhost:3000/api/reservations/id/1 HTTP/1.1
+###
+
+# deleting reservations by user Id
+DELETE  http://localhost:3000/api/reservations/410 HTTP/1.1
+###
+
+## Create new reservation (without reservationid)
+POST http://localhost:3000/api/reservations/ HTTP/1.1
+content-type: application/json
+
+{
+    "airplane_type": "local",
+    "row": 1,
+    "col":"C",
+    "user_id": 1
+}
+###
+
+## Register new user
+POST http://localhost:3000/api/sessions/register HTTP/1.1
+content-type: application/json
+
+{
+    "email": "user3@test",
+    "name": "user3",
+    "password": "password"
+}
+###
+
+## Execute Log In
+POST http://localhost:3000/api/sessions/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "user1@test",
+    "password": "password"
+}
+###
+
+## Checking if user is still logged-in.
+GET http://localhost:3000/api/sessions/current HTTP/1.1
+###
+
+## Execute Log Out.
+DELETE http://localhost:3000/api/sessions/current HTTP/1.1
+###
+
+# Retrieving all reservations
+GET http://localhost:3000/api/reservations/all HTTP/1.1
+###
+
+# 
+GET http://localhost:3000/api/sessions/current HTTP/1.1
+###
