@@ -12,15 +12,35 @@ DELETE  http://localhost:3000/api/reservations/410 HTTP/1.1
 ###
 
 ## Create new reservation (without reservationid)
-POST http://localhost:3000/api/reservations/ HTTP/1.1
+POST http://localhost:3000/api/reservations/bulk HTTP/1.1
 content-type: application/json
 
-{
+[{
     "airplane_type": "local",
     "row": 10,
-    "col":"A",
+    "col":"B",
+    "user_id": 1
+}]
+###
+
+## Create new reservations (without reservationid)
+POST http://localhost:3000/api/reservations/bulk HTTP/1.1
+content-type: application/json
+
+[
+    {
+    "airplane_type": "regional",
+    "row": 11,
+    "col":"C",
+    "user_id": 1
+},
+{
+    "airplane_type": "regional",
+    "row": 11,
+    "col":"B",
     "user_id": 1
 }
+]
 ###
 
 ## Register new user
@@ -58,4 +78,13 @@ GET http://localhost:3000/api/reservations/all HTTP/1.1
 
 # 
 GET http://localhost:3000/api/sessions/current HTTP/1.1
+###
+
+## Delete reservations
+DELETE http://localhost:3000/api/reservations/delete HTTP/1.1
+content-type: application/json
+
+[
+    628,629,630
+]
 ###

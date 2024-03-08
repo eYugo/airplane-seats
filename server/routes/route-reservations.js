@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getReservations,
   getAllReservations,
-  deleteReservation,
+  deleteReservations,
   createReservation,
 } from "../daos/dao-reservations.js";
 import { check, validationResult } from "express-validator";
@@ -27,42 +27,41 @@ function isAuthorized(req, res, next) {
 
 /*** Reservations APIs ***/
 
-// Route to create a new reservation
-router.post(
-  "/",
-  [
-    isLoggedIn,
-    check("airplane_type").isString(),
-    check("row").isInt(),
-    check("col").isString(),
-    check("user_id").isInt(),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
+// Route to create new reservations
+
+router.post("/", async (req, res) => {
+  const reservations = req.body;
+
+  // Validate and create each reservation
+  const results = [];
+  for (let reservation of reservations) {
+    // Validate reservation
+    const errors = validationResult({
+      ...reservation,
+      airplane_type: check("airplane_type").isString(),
+      row: check("row").isInt(),
+      col: check("col").isString(),
+      user_id: check("user_id").isInt(),
+    });
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const reservation = {
-      airplane_type: req.body.airplane_type,
-      row: req.body.row,
-      col: req.body.col,
-      user_id: req.body.user_id,
-    };
-
     try {
-      const result = await createReservation(reservation); // NOTE: createFilm returns the new created object
-      res.json(result);
+      const result = await createReservation(reservation);
+      results.push(result);
     } catch (err) {
-      res.status(503).json({
+      return res.status(503).json({
         error: `Database error during the creation of new reservation: ${err}`,
       });
     }
   }
-);
+
+  res.json(results);
+});
 
 // Route to retrieve the reservations, given an user id
-router.get("/id/:id", [isLoggedIn, isAuthorized], async (req, res) => {
+router.get("/id/:id", async (req, res) => {
   try {
     const result = await getReservations(req.params.id);
     if (result.error) res.status(404).json(result);
@@ -85,14 +84,17 @@ router.get("/all", async (req, res) => {
 
 // Route to delete an existing reservation, given its “id”
 // To Do: add a middleware to check if the user is the owner of the reservation
-router.delete("/:id", isLoggedIn, async (req, res) => {
+// To Do: multiple delete at once
+
+router.delete("/delete", async (req, res) => {
+  const reservationIds = req.body;
+
   try {
-    const result = await deleteReservation(req.params.id);
-    if (result == null) return res.status(200).json({});
-    else return res.status(404).json(result);
+    await deleteReservations(reservationIds);
+    res.json({ message: "Reservations deleted successfully" });
   } catch (err) {
     res.status(503).json({
-      error: `Database error during the deletion of reservation ${req.params.id}: ${err} `,
+      error: `Database error during the deletion of reservations: ${err}`,
     });
   }
 });

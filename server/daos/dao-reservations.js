@@ -32,14 +32,16 @@ export const getAllReservations = () => {
 };
 
 // Function to delete an existing reservation given its id.
-export const deleteReservation = (id) => {
+export const deleteReservations = (reservationIds) => {
+  console.log(reservationIds);
   return new Promise((resolve, reject) => {
-    const sql = "DELETE FROM reservations WHERE id=?";
-    db.run(sql, [id], function (err) {
+    const placeholders = reservationIds.map(() => "?").join(",");
+    const sql = `DELETE FROM reservations WHERE id IN (${placeholders})`;
+    db.run(sql, ...reservationIds, function (err) {
       if (err) {
         reject(err);
       }
-      if (this.changes !== 1) resolve({ error: "No reservation deleted." });
+      if (this.changes === 0) resolve({ error: "No reservation deleted." });
       else resolve(null);
     });
   });

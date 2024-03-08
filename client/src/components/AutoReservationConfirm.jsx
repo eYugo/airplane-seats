@@ -43,15 +43,15 @@ const AutoReservationConfirm = (props) => {
 
     const handleConfirm = () => {
         checkSelectedSeats();
+        const reservationsToAdd = [];
         if (occupiedSelectedSeats.length == 0) {
             reservedSeats.map(({ row, col }) => (
-                reservationsAPI.addReservation({ "airplane_type": formValues.flightType, "row": row, "col": col, "user_id": user.id })
-                    .then(() => { setDirty(true); setSubmitConfirm(false) })
-                    .catch(e => console.log(e))
-
+                reservationsToAdd.push({ "airplane_type": formValues.flightType, "row": row, "col": col, "user_id": user.id })
             ))
+            reservationsAPI.addReservations(reservationsToAdd)
+                .then(() => { setDirty(true); setSubmitConfirm(false) })
+                .catch(e => console.log(e))
         }
-
         handleClose();
     }
 
