@@ -12,12 +12,17 @@ const CancelReservationModal = (props) => {
     const handleShowModal = () => setShowModal(true);
 
     const handleConfirm = () => {
-        reservedSeats.map(({ id }) => (
-            reservationsAPI.deleteReservation(id)
-                .then(() => { setDirty(true); })
-                .catch(e => console.log(e))
+        let idsToDelete = reservedSeats.map(dict => dict.id);
+        reservationsAPI.deleteReservations(idsToDelete)
+            .then(() => { setDirty(true); })
+            .catch(e => console.log(e))
 
-        ))
+        // reservedSeats.map(({ id }) => (
+        //     reservationsAPI.deleteReservation(id)
+        //         .then(() => { setDirty(true); })
+        //         .catch(e => console.log(e))
+
+        // ))
         handleCloseModal();
     }
 
@@ -43,13 +48,13 @@ const CancelReservationModal = (props) => {
                                     <Card.Title>{props.type} flight</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Seats</Card.Subtitle>
                                     <Card.Text>
-                                        {props.reservedSeats.map(({ row, col }) => (
+                                        {props.reservedSeats.map(({ row, col }, index) => (
                                             <Button style={{
                                                 width: '35px',
                                                 height: '35px',
                                                 fontSize: '13px',
                                                 padding: '0',
-                                            }} variant='primary' className='m-1'>{utils.formatNumber(row)}{col}</Button>
+                                            }} key={index} variant='primary' className='m-1'>{utils.formatNumber(row)}{col}</Button>
                                         ))}
                                     </Card.Text>
 

@@ -43,11 +43,15 @@ const getAllReservations = async () => {
 /**
  * This function deletes a reservation from the back-end library.
  */
-function deleteReservation(reservationId) {
+function deleteReservations(reservations) {
   return getJson(
-    fetch(API_URL + "reservations/" + reservationId, {
+    fetch(API_URL + "reservations/delete", {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
+      body: JSON.stringify(reservations),
     })
   );
 }
@@ -55,7 +59,8 @@ function deleteReservation(reservationId) {
 /**
  * This funciton adds a new reservation in the back-end library.
  */
-function addReservation(reservation) {
+
+function addReservations(reservations) {
   return getJson(
     fetch(API_URL + "reservations/", {
       method: "POST",
@@ -63,7 +68,7 @@ function addReservation(reservation) {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(reservation),
+      body: JSON.stringify(reservations),
     })
   );
 }
@@ -71,7 +76,7 @@ function addReservation(reservation) {
 const reservationsAPI = {
   getReservations,
   getAllReservations,
-  deleteReservation,
-  addReservation,
+  deleteReservations,
+  addReservations,
 };
 export default reservationsAPI;
