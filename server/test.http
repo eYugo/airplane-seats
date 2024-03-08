@@ -1,5 +1,3 @@
-GET http://localhost:3000/guess HTTP/1.1
-###
 
 # Retrieving user By Id
 GET http://localhost:3000/api/users/1 HTTP/1.1
@@ -19,8 +17,8 @@ content-type: application/json
 
 {
     "airplane_type": "local",
-    "row": 1,
-    "col":"C",
+    "row": 10,
+    "col":"A",
     "user_id": 1
 }
 ###
@@ -30,8 +28,8 @@ POST http://localhost:3000/api/sessions/register HTTP/1.1
 content-type: application/json
 
 {
-    "email": "user3@test",
-    "name": "user3",
+    "email": "user4@test",
+    "name": "user4",
     "password": "password"
 }
 ###
@@ -41,7 +39,7 @@ POST http://localhost:3000/api/sessions/login HTTP/1.1
 content-type: application/json
 
 {
-    "username": "user1@test",
+    "username": "user@test",
     "password": "password"
 }
 ###
