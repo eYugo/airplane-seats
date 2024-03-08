@@ -1,26 +1,40 @@
 import { Router } from "express";
 import { createUser } from "../daos/dao-users.js";
 import passport from "passport";
+import { check, validationResult } from "express-validator";
 
 const router = Router();
 
 /*** Users APIs ***/
 
 // Route to register the user
-router.post("/register", async (req, res) => {
-  try {
-    const user = await createUser(req.body);
-    req.login(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.status(201).json({ username: user.username });
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+router.post(
+  "/register",
+  [
+    check("email").isString().withMessage("Invalid email"),
+    check("name").isString(),
+    check("password").isString(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const user = await createUser(req.body);
+      req.login(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        res.status(201).json({ username: user.username });
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 // Route to performing login
 router.post("/login", function (req, res, next) {
