@@ -53,7 +53,7 @@ const MainPage = (props) => {
                 console.log(e); setDirty(false);
             });
         // If there are occupiedSelectedSeats
-        // a timer activate for 5 minutes to highlight the occupiedSelectedSeats
+        // a timer activate for 5 seconds to highlight the occupiedSelectedSeats
         if (!(occupiedSelectedSeats.length === 0)) {
             setShow(true);
             const timer = setTimeout(() => {
