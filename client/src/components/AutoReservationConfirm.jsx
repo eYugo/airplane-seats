@@ -24,7 +24,7 @@ const AutoReservationConfirm = (props) => {
     const reservedSeats = generateAutoReservation(airplanes[formValues.flightType], formValues.numberOfSeats)
 
     // function to check if the selected seats were occupied
-    const checkSelectedSeats = async () => {
+    const checkSelectedSeatsAndAdd = async () => {
         try {
             const occupiedSeats = []
             const reservations = await reservationsAPI.getAllReservations();
@@ -36,22 +36,25 @@ const AutoReservationConfirm = (props) => {
                 })
             ))
             setOccupiedSelectedSeats(occupiedSeats);
+            console.log(occupiedSeats)
+
+            const reservationsToAdd = [];
+            if (occupiedSeats.length == 0) {
+                reservedSeats.map(({ row, col }) => (
+                    reservationsToAdd.push({ "airplane_type": formValues.flightType, "row": row, "col": col, "user_id": user.id })
+                ))
+                reservationsAPI.addReservations(reservationsToAdd)
+                    .then(() => { setDirty(true); setSubmitConfirm(false) })
+                    .catch(e => console.log(e))
+            }
         } catch (error) {
             console.log(error)
         }
     };
 
     const handleConfirm = () => {
-        checkSelectedSeats();
-        const reservationsToAdd = [];
-        if (occupiedSelectedSeats.length == 0) {
-            reservedSeats.map(({ row, col }) => (
-                reservationsToAdd.push({ "airplane_type": formValues.flightType, "row": row, "col": col, "user_id": user.id })
-            ))
-            reservationsAPI.addReservations(reservationsToAdd)
-                .then(() => { setDirty(true); setSubmitConfirm(false) })
-                .catch(e => console.log(e))
-        }
+        checkSelectedSeatsAndAdd();
+        setDirty(true);
         handleClose();
     }
 
@@ -59,7 +62,6 @@ const AutoReservationConfirm = (props) => {
         if (submitConfirm) {
             handleConfirm();
         }
-        console.log(submitConfirm)
     }, [submitConfirm])
 
     return (

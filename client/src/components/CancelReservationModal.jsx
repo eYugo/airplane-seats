@@ -16,13 +16,6 @@ const CancelReservationModal = (props) => {
         reservationsAPI.deleteReservations(idsToDelete)
             .then(() => { setDirty(true); })
             .catch(e => console.log(e))
-
-        // reservedSeats.map(({ id }) => (
-        //     reservationsAPI.deleteReservation(id)
-        //         .then(() => { setDirty(true); })
-        //         .catch(e => console.log(e))
-
-        // ))
         handleCloseModal();
     }
 

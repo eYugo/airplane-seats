@@ -33,7 +33,7 @@ const ReservationModal = (props) => {
     };
 
     // function to check if the selected seats were occupied
-    const checkSelectedSeats = async () => {
+    const checkSelectedSeatsAndAdd = async () => {
         try {
             const occupiedSeats = []
             const reservations = await reservationsAPI.getAllReservations();
@@ -46,6 +46,17 @@ const ReservationModal = (props) => {
                     })
                 ))))
             setOccupiedSelectedSeats(occupiedSeats);
+            // if no occupied seats, add the reservations
+            const reservationsToAdd = [];
+            if (occupiedSeats.length == 0) {
+                selectedSeats.map(({ type, seats }) => (
+                    seats.map(({ row, col }) => (
+                        reservationsToAdd.push({ "airplane_type": type, "row": row, "col": col, "user_id": user.id })
+                    ))))
+                reservationsAPI.addReservations(reservationsToAdd)
+                    .then(() => { setDirty(true) })
+                    .catch(e => console.log(e))
+            }
         } catch (error) {
             console.log(error)
         }
@@ -55,17 +66,8 @@ const ReservationModal = (props) => {
     const selectedSeats = getSelectedSeats(props.airplanes);
 
     const handleConfirm = () => {
-        checkSelectedSeats();
-        const reservationsToAdd = [];
-        if (occupiedSelectedSeats.length == 0) {
-            selectedSeats.map(({ type, seats }) => (
-                seats.map(({ row, col }) => (
-                    reservationsToAdd.push({ "airplane_type": type, "row": row, "col": col, "user_id": user.id })
-                ))))
-            reservationsAPI.addReservations(reservationsToAdd)
-                .then(() => { setDirty(true) })
-                .catch(e => console.log(e))
-        }
+        checkSelectedSeatsAndAdd();
+
         setDirty(true);
         handleClose();
     }
