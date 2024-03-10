@@ -1,4 +1,4 @@
-"Airplane Seats"
+"Airplane Seats": Web Application Exam
 
 Web application for booking seats on a plane
 
