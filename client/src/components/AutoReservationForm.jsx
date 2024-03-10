@@ -4,12 +4,14 @@ import utils from '../utils/utils';
 
 const AutoReservationForm = (props) => {
     const { formValues, setDirty, setFormValues, setIsConfirm } = props;
+    const { airplaneType, setAirplaneType } = props;
 
     const [formErrors, setFormErrors] = useState({});
     const [isSubmit, setIsSubmit] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        name == "flightType" ? setAirplaneType(value) : null
         setFormValues({ ...formValues, [name]: value });
     }
 
@@ -48,7 +50,7 @@ const AutoReservationForm = (props) => {
         <Form onSubmit={handleSubmit} id='AutoReservationForm'>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label>Choose the flight type:</Form.Label>
-                <Form.Select name="flightType" value={formValues.flightType} onChange={handleChange}>
+                <Form.Select name="flightType" value={airplaneType} onChange={handleChange}>
                     <option value="local">local</option>
                     <option value="regional">regional</option>
                     <option value="international">international</option>

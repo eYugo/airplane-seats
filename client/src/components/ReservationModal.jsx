@@ -92,20 +92,20 @@ const ReservationModal = (props) => {
                 <Modal.Body>
                     <Row>
                         {
-                            selectedSeats.map(({ type, seats }, index) => ((seats.length === 0) ? <></> :
-                                <Col className='d-flex justify-content-center' key={index}>
-                                    <Card style={{ width: '14rem' }} className='d-flex flex-column mb-auto'>
-                                        <Card.Body>
-                                            <Card.Title>{type} flight</Card.Title>
+                            selectedSeats.map(({ type, seats }, index) => ((seats.length === 0) ? null :
+                                <Col className='d-flex justify-content-center' key={'Col' + index}>
+                                    <Card style={{ width: '14rem' }} className='d-flex flex-column mb-auto' >
+                                        <Card.Body >
+                                            <Card.Title >{type} flight</Card.Title>
                                             <Card.Subtitle className="mb-2 text-muted">Requested Seats</Card.Subtitle>
-                                            <Card.Text>
-                                                {seats.map(({ row, col }, index) => (
+                                            <Card.Text >
+                                                {seats.map(({ row, col }, index1) => (
                                                     <Button style={{
                                                         width: '35px',
                                                         height: '35px',
                                                         fontSize: '13px',
                                                         padding: '0',
-                                                    }} key={index} variant='secondary' className='m-1'>{utils.formatNumber(row)}{col}</Button>
+                                                    }} key={'button' + index + index1} variant='secondary' className='m-1'>{utils.formatNumber(row)}{col}</Button>
                                                 ))}
                                             </Card.Text>
                                         </Card.Body>
@@ -115,7 +115,7 @@ const ReservationModal = (props) => {
                         }
                     </Row>
                 </Modal.Body>
-                <Row className='my-4' >
+                <Row className='my-4'>
                     <Col></Col>
                     <Col>
                         <Button className='mx-2' variant="primary" onClick={handleConfirm}>Confirm</Button>

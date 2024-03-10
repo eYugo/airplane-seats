@@ -85,6 +85,8 @@ const MainPage = (props) => {
                             <AutoReservationModal
                                 airplanes={airplanes}
                                 setAirplanes={setAirplanes}
+                                airplaneType={airplaneType}
+                                setAirplaneType={setAirplaneType}
                                 setDirty={setDirty}
                                 user={user}
                                 occupiedSelectedSeats={occupiedSelectedSeats}

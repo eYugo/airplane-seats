@@ -48,6 +48,8 @@ const AutoReservationModal = (props) => {
                                         setOccupiedSelectedSeats={props.setOccupiedSelectedSeats}
                                     /> :
                                     <AutoReservationForm
+                                        airplaneType={props.airplaneType}
+                                        setAirplaneType={props.setAirplaneType}
                                         formValues={formValues}
                                         setFormValues={setFormValues}
                                         setIsConfirm={setIsConfirm}
