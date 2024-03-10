@@ -25,7 +25,6 @@ function App() {
   useEffect(() => {
     const init = async () => {
       try {
-        setLoading(true);
         const user = await usersAPI.getUserInfo();
         setUser(user);
         setIsLoggedIn(true);

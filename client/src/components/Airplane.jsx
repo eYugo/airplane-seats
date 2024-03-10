@@ -32,7 +32,7 @@ const Airplane = (props) => {
             for (let seat = 65; seat < props.airplaneConfig[props.airplaneType].numSeatsPerRow + 65; seat++) {
                 const letter = String.fromCharCode(seat);
                 seatsInRow.push(
-                    <Button
+                    <Button key={'button' + row + letter}
                         variant={variant[airplaneRow[letter]]}
                         className={props.airplaneConfig[props.airplaneType].seatsLayout[letter]}
                         onClick={() => { isLoggedIn ? handleClick(row, letter, airplaneRow[letter]) : setShow(true) }}
@@ -42,7 +42,7 @@ const Airplane = (props) => {
                 );
             }
             airplaneRows.push(
-                <Row className="justify-content-center">
+                <Row key={row} className="justify-content-center">
                     {seatsInRow}
                 </Row>
             );

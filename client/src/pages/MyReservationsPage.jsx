@@ -24,15 +24,17 @@ const MyReservationsPage = (props) => {
     }
 
     useEffect(() => {
-        reservationsAPI.getReservations(user.id)
-            .then(clientReservations => {
-                setReservations(separateReservationsByType(clientReservations));
-                setDirty(false);
-            })
-            .catch(e => {
-                console.log(e); setDirty(false);
-            });
-    }, [user.id, dirty]);
+        if (user) {
+            reservationsAPI.getReservations(user.id)
+                .then(clientReservations => {
+                    setReservations(separateReservationsByType(clientReservations));
+                    setDirty(false);
+                })
+                .catch(e => {
+                    console.log(e); setDirty(false);
+                });
+        }
+    }, [user, dirty]);
 
     return (
         <Container className='text-center my-4'>
